@@ -1,6 +1,6 @@
 import os,sys
 
-folder_name="test/result/"
+folder_name="2021-07-12-01:00->2021-07-12-12:00||all(RIBS)/result/"
 dirlist=os.listdir(folder_name)
 data=set()
 for name in dirlist:
