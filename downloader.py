@@ -260,32 +260,6 @@ if __name__=='__main__':
                         RibUrls.append(finalurl)
 
         download(RibUrls, folder_name)
-        dirlist=os.listdir(folder_name)
-        i = 0
-        for name in dirlist:
-            i += 1
-            #self-defined parse 
-            if name=='result':
-                continue
-            path_to_file = str(folder_name) + "/" + str(name)
-            path_to_write = str(folder_name) + '/result/' + str(name) + str(".txt")
-            r = Reader(path_to_file)   
-            count = 0
-            b = BgpDump(path_to_write)
-            for m in r:
-                if m.err:
-                    continue
-                if m.data['type'][0] == MRT_T['TABLE_DUMP']:
-                    b.td(m.data, count)
-                elif m.data['type'][0] == MRT_T['TABLE_DUMP_V2']:
-                    b.td_v2(m.data)
-                elif m.data['type'][0] == MRT_T['BGP4MP']:
-                    b.bgp4mp(m.data, count)
-                b.clear()
-                count += 1
-            b.close()
-            print("finish %d / %d"%(i,len(dirlist)))
-        print("done!")
 
 #route-views.eqix ribs 2021-07-12-06:00 2021-06-19-10:00
 #route-views.eqix,rrc15 updates 2015-04-01-14:00 2015-04-01-14:20
