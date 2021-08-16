@@ -225,9 +225,7 @@ class BgpDump:
             self.print_routes()
 
     def bgp_attr(self, attr):
-        if attr['type'][0] == BGP_ATTR_T['ORIGIN']:
-            self.origin = ORIGIN_T[attr['value']]
-        elif attr['type'][0] == BGP_ATTR_T['NEXT_HOP']:
+        if attr['type'][0] == BGP_ATTR_T['NEXT_HOP']:
             self.next_hop.append(attr['value'])
         elif attr['type'][0] == BGP_ATTR_T['AS_PATH']:
             self.as_path = []
@@ -242,16 +240,6 @@ class BgpDump:
                     self.as_path.append('[%s]' % ','.join(seg['value']))
                 else:
                     self.as_path += seg['value']
-        elif attr['type'][0] == BGP_ATTR_T['MULTI_EXIT_DISC']:
-            self.med = attr['value']
-        elif attr['type'][0] == BGP_ATTR_T['LOCAL_PREF']:
-            self.local_pref = attr['value']
-        elif attr['type'][0] == BGP_ATTR_T['ATOMIC_AGGREGATE']:
-            self.atomic_aggr = 'AG'
-        elif attr['type'][0] == BGP_ATTR_T['AGGREGATOR']:
-            self.aggr = '%s %s' % (attr['value']['as'], attr['value']['id'])
-        elif attr['type'][0] == BGP_ATTR_T['COMMUNITY']:
-            self.comm = ' '.join(attr['value'])
         elif attr['type'][0] == BGP_ATTR_T['MP_REACH_NLRI']:
             self.next_hop = attr['value']['next_hop']
             if self.type != 'BGP4MP':
@@ -284,10 +272,25 @@ class BgpDump:
                     self.as4_path.append('[%s]' % ','.join(seg['value']))
                 else:
                     self.as4_path += seg['value']
-        elif attr['type'][0] == BGP_ATTR_T['AS4_AGGREGATOR']:
-            self.as4_aggr = '%s %s' % (
-                attr['value']['as'], attr['value']['id']
-            )
+        elif self.verbose:
+            if attr['type'][0] == BGP_ATTR_T['AS4_AGGREGATOR']:
+                self.as4_aggr = '%s %s' % (
+                    attr['value']['as'], attr['value']['id']
+                )
+            elif attr['type'][0] == BGP_ATTR_T['ORIGIN']:
+                self.origin = ORIGIN_T[attr['value']]
+            elif attr['type'][0] == BGP_ATTR_T['MULTI_EXIT_DISC']:
+                self.med = attr['value']
+            elif attr['type'][0] == BGP_ATTR_T['LOCAL_PREF']:
+                self.local_pref = attr['value']
+            elif attr['type'][0] == BGP_ATTR_T['ATOMIC_AGGREGATE']:
+                self.atomic_aggr = 'AG'
+            elif attr['type'][0] == BGP_ATTR_T['AGGREGATOR']:
+                self.aggr = '%s %s' % (attr['value']['as'], attr['value']['id'])
+            elif attr['type'][0] == BGP_ATTR_T['COMMUNITY']:
+                self.comm = ' '.join(attr['value'])
+        
+
 
     def merge_as_path(self):
         if len(self.as4_path):
