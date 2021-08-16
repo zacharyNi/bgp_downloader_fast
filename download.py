@@ -3,6 +3,7 @@ import queue
 from URLGetter import BGPDownloader
 from DownloadThread import DownloadThread
 from parser_thread import parse
+import argparse
 
 def download(urls, destfolder, numthreads=30):
     try:
@@ -18,11 +19,29 @@ def download(urls, destfolder, numthreads=30):
         t.start()
     q.join()
 
+def parse_args():
+    p = argparse.ArgumentParser(
+        description='This script download bgp data.')
+    p.add_argument(
+        '-c', dest='collector', required=True, type=str,
+        help='选择需要的收集器')
+    p.add_argument(
+        '-d', dest='datatype', required=True, type=str,
+        help='选择数据类型:updates或ribs')
+    p.add_argument(
+        '-s', dest='start_time', required=True, type=str,
+        help='数据的开始时间:xxxx-xx-xx-xx:xx')
+    p.add_argument(
+        '-e', dest='end_time', required=True, type=str,
+        help='数据的结束时间:xxxx-xx-xx-xx:xx')
+    return p.parse_args()
+
 if __name__=='__main__':
-    collector="rrc00"
-    datatype="updates"
-    start_time="2015-04-01-14:00"
-    end_time="2015-04-01-14:20"
+    args = parse_args()
+    collector=args.collector
+    datatype=args.datatype
+    start_time=args.start_time
+    end_time=args.end_time
     bgp=BGPDownloader()
     bgp.set_collector(collector)
     bgp.set_datatype(datatype)
