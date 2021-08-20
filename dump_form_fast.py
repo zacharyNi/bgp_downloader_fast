@@ -5,7 +5,7 @@ import configparser
 
 peer = None
 
-class BgpDump:
+class BgpDump_fast:
     __slots__ = [
         'verbose', 'output', 'ts_format', 'pkt_num', 'type', 'num', 'ts',
         'org_time', 'flag', 'peer_ip', 'peer_as', 'nlri', 'withdrawn',

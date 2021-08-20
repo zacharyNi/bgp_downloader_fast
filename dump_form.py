@@ -61,6 +61,9 @@ class BgpDump:
     
     def clear(self):
         self.type = ''
+        self.num = 0
+        self.ts = 0
+        self.org_time = 0
         self.flag = ''
         self.peer_ip = ''
         self.peer_as = 0
@@ -69,8 +72,15 @@ class BgpDump:
         self.as_path = []
         self.origin = ''
         self.next_hop = []
+        self.local_pref = 0
+        self.med = 0
+        self.comm = ''
+        self.atomic_aggr = 'NAG'
+        self.aggr = ''
         self.as4_path = []
         self.as4_aggr = ''
+        self.old_state = 0
+        self.new_state = 0
 
     def print_line(self, prefix, next_hop):
         cp = configparser.ConfigParser()

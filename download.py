@@ -55,11 +55,9 @@ if __name__=='__main__':
 #route-views.eqix ribs 2021-07-12-06:00 2021-06-19-10:00
 #route-views.eqix,rrc15 updates 2015-04-01-14:00 2015-04-01-14:20
 #all ribs 2021-07-12-01:00 2021-07-12-12:00
-# rrc03 ribs 2021-07-12-12:00 2021-07-12-18:00
+#python3 download.py -c rrc00 -d ribs -s 2021-01-01-06:00 -e 2021-01-01-20:00
 
 #W withdrawl
 #A announce
 #STATE state message
 #B RIB
-#TODO
-#1.Command parser
