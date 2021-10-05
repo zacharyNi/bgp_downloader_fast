@@ -29,10 +29,21 @@ def parse_handle(folder_name,name):
 
 def parse(folder_name):
     p_list = []
+    parsed_data=[]
+    try:
+        os.stat(folder_name+"/result")
+    except:
+        os.mkdir(folder_name+"/result")
+    else:
+        parsed_data=os.listdir(folder_name+"/result")
     dirlist=os.listdir(folder_name)
     i = 0
+    dirlen=len(dirlist)
     for name in dirlist:
         if name=="result":
+            continue
+        elif name+".txt" in parsed_data:
+            dirlen-=1
             continue
         p = Process(target=parse_handle, args=(folder_name,name, ))
         p_list.append(p)

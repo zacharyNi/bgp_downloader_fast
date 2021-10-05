@@ -97,6 +97,7 @@ class BGPDownloader:
         start_time_accurate=start_time_handler.accurate_time()
         end_time_accurate=end_time_handler.accurate_time()
         for cc in self.chosen_collectors:
+            print(cc)
             sources=[]
             if cc in routeViews_Collector_list:
                 base_url = routeViews + cc + "/bgpdata"

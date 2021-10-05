@@ -6,13 +6,19 @@ from parser_thread import parse
 import argparse
 
 def download(urls, destfolder, numthreads=30):
+    downloaded_data=[]
     try:
         os.stat(destfolder)
     except:
         os.mkdir(destfolder)
-        os.mkdir(destfolder+"/result")
+    else:
+        downloaded_data=os.listdir(destfolder)
     q = queue.Queue()
     for url in urls:
+        us=url.split("/")
+        name=str(us[4])+str("_")+str(us[-1])
+        if name in downloaded_data:
+            continue
         q.put(url)
     for i in range(numthreads):
         t = DownloadThread(q, destfolder)
@@ -46,14 +52,15 @@ if __name__=='__main__':
     bgp.set_collector(collector)
     bgp.set_datatype(datatype)
     bgp.set_time(start_time,end_time)
+    print(collector+"||"+datatype+"||"+start_time+"->"+end_time)
     urls=bgp.getUrl()
-    folder_name=str(start_time+"->"+end_time+"||"+collector+"("+datatype+")")  
-    download(urls,folder_name)
+    folder_name="Data/"+str(start_time+"->"+end_time+"||"+collector+"("+datatype+")")  
+    download(urls,folder_name,len(urls))
     parse(folder_name)
   
     
 #route-views.eqix ribs 2021-07-12-06:00 2021-06-19-10:00
-#route-views.eqix,rrc15 updates 2015-04-01-14:00 2015-04-01-14:20
+#python3 download.py -c route-views.eqix,rrc15 -d updates -s 2015-04-01-14:00 -e 2015-04-01-14:20
 #all ribs 2021-07-12-01:00 2021-07-12-12:00
 #python3 download.py -c rrc00 -d ribs -s 2021-01-01-06:00 -e 2021-01-01-20:00
 
